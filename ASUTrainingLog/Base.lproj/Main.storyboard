@@ -176,7 +176,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ePc-Qx-GEX">
                                                     <rect key="frame" x="51.5" y="0.0" width="354.5" height="34.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -200,6 +200,56 @@
                                     <outlet property="mileageEntry" destination="ePc-Qx-GEX" id="Qj2-1E-VCP"/>
                                     <outlet property="mileageLabel" destination="ZBF-gn-0Cp" id="3Gl-yK-uhh"/>
                                 </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="trainingSpecifier" id="Anf-Ss-CUu" customClass="TrainingSpecifierTableViewCell" customModule="ASUTrainingLog" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="70.5" width="414" height="39.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Anf-Ss-CUu" id="gjv-RQ-Rwc">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="39.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lOw-Di-ZqA">
+                                            <rect key="frame" x="4" y="4" width="406" height="31.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rou-wX-Cro">
+                                                    <rect key="frame" x="0.0" y="0.0" width="347" height="31.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cPJ-95-kYV">
+                                                    <rect key="frame" x="357" y="0.0" width="51" height="31.5"/>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Rou-wX-Cro" firstAttribute="leading" secondItem="lOw-Di-ZqA" secondAttribute="leading" id="5YY-4a-Xa2"/>
+                                                <constraint firstItem="cPJ-95-kYV" firstAttribute="top" secondItem="lOw-Di-ZqA" secondAttribute="top" id="5tx-wv-kTC"/>
+                                                <constraint firstItem="Rou-wX-Cro" firstAttribute="top" secondItem="lOw-Di-ZqA" secondAttribute="top" id="Ck0-5X-ZFf"/>
+                                                <constraint firstAttribute="trailing" secondItem="cPJ-95-kYV" secondAttribute="trailing" id="MqQ-u0-QKu"/>
+                                                <constraint firstAttribute="bottom" secondItem="Rou-wX-Cro" secondAttribute="bottom" id="S76-fw-1tS"/>
+                                                <constraint firstAttribute="bottom" secondItem="cPJ-95-kYV" secondAttribute="bottom" id="qvi-Ze-Tag"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="lOw-Di-ZqA" secondAttribute="trailing" constant="4" id="47A-bs-mRq"/>
+                                        <constraint firstItem="lOw-Di-ZqA" firstAttribute="top" secondItem="gjv-RQ-Rwc" secondAttribute="top" constant="4" id="JdI-oD-H5U"/>
+                                        <constraint firstItem="lOw-Di-ZqA" firstAttribute="leading" secondItem="gjv-RQ-Rwc" secondAttribute="leading" constant="4" id="P2r-P1-xh9"/>
+                                        <constraint firstAttribute="bottom" secondItem="lOw-Di-ZqA" secondAttribute="bottom" constant="4" id="hzv-fI-LnJ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="trainingType" destination="Rou-wX-Cro" id="XZK-FA-VFM"/>
+                                    <outlet property="typeSwitch" destination="cPJ-95-kYV" id="2fQ-V1-1AJ"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="dateSpecifier" id="aNq-VR-8SV" customClass="DateSpecifierTableViewCell" customModule="ASUTrainingLog" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="110" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aNq-VR-8SV" id="EyM-gu-xER">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>

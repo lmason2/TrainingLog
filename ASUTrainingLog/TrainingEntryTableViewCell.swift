@@ -23,15 +23,16 @@ class TrainingEntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
         
-    func update(with row: Int) {
-        switch (row) {
+    func update(with indexPath: IndexPath) {
+        switch (indexPath.row) {
         case 0:
-            mileageLabel.text = "AM Training: "
-            mileageEntry.text = "0"
+            mileageLabel.text = "AM: "
+        case 1:
+            mileageLabel.text = "PM: "
         default:
-            mileageLabel.text = "PM Training"
-            mileageEntry.text = "0"
+            mileageLabel.text = "error"
         }
+        mileageEntry.placeholder = "Mileage"
     }
 
 }

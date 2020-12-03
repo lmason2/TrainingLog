@@ -8,7 +8,6 @@
 import UIKit
 
 class NewEntryTableViewController: UITableViewController {
-    let mileageID = "mileageEntry"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,13 +17,11 @@ class NewEntryTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        tableView.register(TrainingEntryTableViewCell.self, forCellReuseIdentifier: mileageID)
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 3
     }
 
@@ -42,10 +39,36 @@ class NewEntryTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let trainingCell = tableView.dequeueReusableCell(withIdentifier: mileageID, for: indexPath) as! TrainingEntryTableViewCell
-        trainingCell.update(with: indexPath.row)
-        return trainingCell
+        if (indexPath.section == 0) {
+            let mileageCell = tableView.dequeueReusableCell(withIdentifier: "mileageEntry", for: indexPath) as! TrainingEntryTableViewCell
+            mileageCell.update(with: indexPath)
+            return mileageCell
+        }
+        else if (indexPath.section == 1) {
+            let typeCell = tableView.dequeueReusableCell(withIdentifier: "trainingSpecifier", for: indexPath) as! TrainingSpecifierTableViewCell
+            typeCell.update(with: indexPath)
+            return typeCell
+        }
+        else {
+            let dateCell = tableView.dequeueReusableCell(withIdentifier: "dateSpecifier", for: indexPath) as! DateSpecifierTableViewCell
+            dateCell.update(with: indexPath)
+            return dateCell
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        if section == 0 {
+            label.text = "Mileage"
+        }
+        else if section == 1 {
+            label.text = "Type of run"
+        }
+        else {
+            label.text = "Date"
+        }
+        label.backgroundColor = .lightGray
+        return label
     }
 
     /*

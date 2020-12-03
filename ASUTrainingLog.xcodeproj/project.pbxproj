@@ -12,6 +12,8 @@
 		9A12EFDF257996F3009CDB1B /* NewEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */; };
 		9AB4456325770FD400706295 /* TrainingHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4456225770FD400706295 /* TrainingHomeScreen.swift */; };
 		9ADD2C8325799F5A00EBA74E /* TrainingEntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */; };
+		9ADD2C862579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */; };
+		9ADD2C892579A85800EBA74E /* DateSpecifierTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C882579A85700EBA74E /* DateSpecifierTableViewCell.swift */; };
 		9AE2323B2577014000045286 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2323A2577014000045286 /* AppDelegate.swift */; };
 		9AE2323D2577014000045286 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2323C2577014000045286 /* SceneDelegate.swift */; };
 		9AE2323F2577014000045286 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2323E2577014000045286 /* ViewController.swift */; };
@@ -29,6 +31,8 @@
 		9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEntryTableViewController.swift; sourceTree = "<group>"; };
 		9AB4456225770FD400706295 /* TrainingHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingHomeScreen.swift; sourceTree = "<group>"; };
 		9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingEntryTableViewCell.swift; sourceTree = "<group>"; };
+		9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSpecifierTableViewCell.swift; sourceTree = "<group>"; };
+		9ADD2C882579A85700EBA74E /* DateSpecifierTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSpecifierTableViewCell.swift; sourceTree = "<group>"; };
 		9AE232372577014000045286 /* ASUTrainingLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASUTrainingLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AE2323A2577014000045286 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AE2323C2577014000045286 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +92,8 @@
 				9A12EFAD257971A6009CDB1B /* TrainingDay.swift */,
 				9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */,
 				9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */,
+				9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */,
+				9ADD2C882579A85700EBA74E /* DateSpecifierTableViewCell.swift */,
 			);
 			path = ASUTrainingLog;
 			sourceTree = "<group>";
@@ -226,6 +232,8 @@
 			files = (
 				9ADD2C8325799F5A00EBA74E /* TrainingEntryTableViewCell.swift in Sources */,
 				9A12EFDF257996F3009CDB1B /* NewEntryTableViewController.swift in Sources */,
+				9ADD2C892579A85800EBA74E /* DateSpecifierTableViewCell.swift in Sources */,
+				9ADD2C862579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift in Sources */,
 				9AB4456325770FD400706295 /* TrainingHomeScreen.swift in Sources */,
 				9AE2323F2577014000045286 /* ViewController.swift in Sources */,
 				9AE2323B2577014000045286 /* AppDelegate.swift in Sources */,
