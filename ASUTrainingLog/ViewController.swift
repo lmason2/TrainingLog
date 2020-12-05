@@ -45,6 +45,17 @@ class ViewController: UIViewController {
                 }
                 
                 strongSelf.performSegue(withIdentifier: "loginSegue", sender: strongSelf)
+                // Add a new document with a generated ID
+                var ref: DocumentReference? = nil
+                ref = db.collection("users").addDocument(data: [
+                    "username": emailTF.text
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    } else {
+                        print("Document added with ID: \(ref!.documentID)")
+                    }
+                }
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {_ in}))

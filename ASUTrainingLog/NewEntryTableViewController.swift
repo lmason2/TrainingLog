@@ -11,18 +11,11 @@ class NewEntryTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -33,7 +26,10 @@ class NewEntryTableViewController: UITableViewController {
             return 4
         }
         else if section == 2 {
-            return 2
+            return 1
+        }
+        else if section == 3 {
+            return 1
         }
         return 0
     }
@@ -42,35 +38,56 @@ class NewEntryTableViewController: UITableViewController {
         if (indexPath.section == 0) {
             let mileageCell = tableView.dequeueReusableCell(withIdentifier: "mileageEntry", for: indexPath) as! TrainingEntryTableViewCell
             mileageCell.update(with: indexPath)
+            mileageCell.backgroundColor = .white
             return mileageCell
         }
         else if (indexPath.section == 1) {
             let typeCell = tableView.dequeueReusableCell(withIdentifier: "trainingSpecifier", for: indexPath) as! TrainingSpecifierTableViewCell
             typeCell.update(with: indexPath)
+            typeCell.backgroundColor = .white
             return typeCell
         }
-        else {
+        else if (indexPath.section == 2){
             let dateCell = tableView.dequeueReusableCell(withIdentifier: "dateSpecifier", for: indexPath) as! DateSpecifierTableViewCell
             dateCell.update(with: indexPath)
+            dateCell.backgroundColor = .white
             return dateCell
+        }
+        else {
+            let notesCell = tableView.dequeueReusableCell(withIdentifier: "notesOnTraining", for: indexPath) as! NotesOnTrainingTableViewCell
+            notesCell.backgroundColor = .white
+            return notesCell
         }
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        if section == 0 {
-            label.text = "Mileage"
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 3 {
+            return 100
         }
-        else if section == 1 {
-            label.text = "Type of run"
-        }
-        else {
-            label.text = "Date"
-        }
-        label.backgroundColor = .lightGray
-        return label
+        return tableView.estimatedRowHeight
     }
-
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch(section) {
+            case 0:
+                return "Mileage"
+            case 1:
+                return "Training Type"
+            case 2:
+                return "Date"
+            case 3:
+                return "Notes"
+            default:
+                return "Misc"
+                
+        }
+    }
+        
+//    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        let header = view as! UITableViewHeaderFooterView
+//        header.textLabel?.textColor = .black
+//        header.backgroundColor = .white
+//    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

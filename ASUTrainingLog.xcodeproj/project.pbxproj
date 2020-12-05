@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A0AD2B4257BF4DC004587EA /* NotesOnTrainingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0AD2B3257BF4DC004587EA /* NotesOnTrainingTableViewCell.swift */; };
+		9A0AD2BB257C076F004587EA /* SeasonTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0AD2BA257C076F004587EA /* SeasonTableTableViewController.swift */; };
 		9A12EFA425796ADC009CDB1B /* TodaysTrainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12EFA325796ADC009CDB1B /* TodaysTrainingViewController.swift */; };
 		9A12EFAE257971A6009CDB1B /* TrainingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12EFAD257971A6009CDB1B /* TrainingDay.swift */; };
 		9A12EFDF257996F3009CDB1B /* NewEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */; };
@@ -26,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		635963CD002AF054EA4C40E5 /* Pods-ASUTrainingLog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ASUTrainingLog.release.xcconfig"; path = "Target Support Files/Pods-ASUTrainingLog/Pods-ASUTrainingLog.release.xcconfig"; sourceTree = "<group>"; };
+		9A0AD2B3257BF4DC004587EA /* NotesOnTrainingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesOnTrainingTableViewCell.swift; sourceTree = "<group>"; };
+		9A0AD2BA257C076F004587EA /* SeasonTableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonTableTableViewController.swift; sourceTree = "<group>"; };
 		9A12EFA325796ADC009CDB1B /* TodaysTrainingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysTrainingViewController.swift; sourceTree = "<group>"; };
 		9A12EFAD257971A6009CDB1B /* TrainingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDay.swift; sourceTree = "<group>"; };
 		9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEntryTableViewController.swift; sourceTree = "<group>"; };
@@ -94,6 +98,8 @@
 				9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */,
 				9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */,
 				9ADD2C882579A85700EBA74E /* DateSpecifierTableViewCell.swift */,
+				9A0AD2B3257BF4DC004587EA /* NotesOnTrainingTableViewCell.swift */,
+				9A0AD2BA257C076F004587EA /* SeasonTableTableViewController.swift */,
 			);
 			path = ASUTrainingLog;
 			sourceTree = "<group>";
@@ -230,6 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A0AD2B4257BF4DC004587EA /* NotesOnTrainingTableViewCell.swift in Sources */,
 				9ADD2C8325799F5A00EBA74E /* TrainingEntryTableViewCell.swift in Sources */,
 				9A12EFDF257996F3009CDB1B /* NewEntryTableViewController.swift in Sources */,
 				9ADD2C892579A85800EBA74E /* DateSpecifierTableViewCell.swift in Sources */,
@@ -240,6 +247,7 @@
 				9A12EFA425796ADC009CDB1B /* TodaysTrainingViewController.swift in Sources */,
 				9A12EFAE257971A6009CDB1B /* TrainingDay.swift in Sources */,
 				9AE2323D2577014000045286 /* SceneDelegate.swift in Sources */,
+				9A0AD2BB257C076F004587EA /* SeasonTableTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

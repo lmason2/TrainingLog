@@ -12,4 +12,8 @@ target 'ASUTrainingLog' do
     # https://firebase.google.com/docs/ios/setup#available-pods
     pod 'Firebase'
     pod 'Firebase/Auth'
+    pod 'Firebase/Firestore'
+
+    # Optionally, include the Swift extensions if you're using Swift.
+    pod 'FirebaseFirestoreSwift'
 end

@@ -8,6 +8,8 @@
 import UIKit
 
 class DateSpecifierTableViewCell: UITableViewCell {
+    
+    @IBOutlet var dateSpecifier: UIDatePicker!
 
 
     override func awakeFromNib() {
@@ -22,23 +24,9 @@ class DateSpecifierTableViewCell: UITableViewCell {
     }
         
     func update(with indexPath: IndexPath) {
-//        switch (indexPath.row) {
-//            case 0:
-//                trainingType.text = "Easy Day"
-//                typeSwitch.isOn = true
-//            case 1:
-//                trainingType.text = "Workout Day"
-//                typeSwitch.isOn = false
-//            case 3:
-//                trainingType.text = "Race Day"
-//                typeSwitch.isOn = false
-//            case 4:
-//                trainingType.text = "Long Run"
-//                typeSwitch.isOn = false
-//            default:
-//                trainingType.text = "No Type"
-//                typeSwitch.isOn = false
-//        }
+        dateSpecifier.date = Date()
+        dateSpecifier.datePickerMode = .date
+        dateSpecifier.preferredDatePickerStyle = .compact
     }
 
 }
