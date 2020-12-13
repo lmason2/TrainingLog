@@ -1,13 +1,25 @@
 //
-//  SeasonTableTableViewController.swift
+//  AddSeasonTableViewController.swift
 //  ASUTrainingLog
 //
-//  Created by Luke Mason on 12/5/20.
+//  Created by Luke Mason on 12/13/20.
 //
 
 import UIKit
 
-class SeasonTableTableViewController: UITableViewController {
+class AddSeasonTableViewController: UITableViewController {
+    
+    var trainingDay: TrainingDay?
+    
+    @IBAction func createSeassonButtonPressed(sender: UIBarButtonItem) {
+        createSeason()
+        if let _ = trainingDay {
+            performSegue(withIdentifier: "newEntry", sender: self)
+        }
+        else {
+            performSegue(withIdentifier: "seasonTable", sender: self)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,25 +34,48 @@ class SeasonTableTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 3
     }
 
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "simpleSub", for: indexPath)
-
-        cell.textLabel?.text = "Season \(indexPath.row + 1)"
-        cell.detailTextLabel?.text = "Mileage: 0"
-
-        return cell
+        if (indexPath.section == 0) {
+            let seasonNameCell = tableView.dequeueReusableCell(withIdentifier: "seasonNameCell", for: indexPath) as! SeasonNameTableViewCell
+            seasonNameCell.backgroundColor = .white
+            return seasonNameCell
+        }
+        else if (indexPath.section == 1) {
+            let startDateCell = tableView.dequeueReusableCell(withIdentifier: "dateSpecifier", for: indexPath) as! DateSpecifierTableViewCell
+            startDateCell.update(with: indexPath)
+            startDateCell.backgroundColor = .white
+            return startDateCell
+        }
+        else {
+            let endDateCell = tableView.dequeueReusableCell(withIdentifier: "dateSpecifier", for: indexPath) as! DateSpecifierTableViewCell
+            endDateCell.update(with: indexPath)
+            endDateCell.backgroundColor = .white
+            return endDateCell
+        }
     }
     
-    @IBAction func unwindToSeasonTableView(for segue: UIStoryboardSegue) {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch(section) {
+            case 0:
+                return "Season Name"
+            case 1:
+                return "Start Date"
+            case 2:
+                return "End Date"
+            default:
+                return "Misc"
+                
+        }
+    }
+    
+    func createSeason() {
         
     }
 

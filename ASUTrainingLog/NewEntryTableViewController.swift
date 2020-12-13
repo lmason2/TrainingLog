@@ -82,6 +82,82 @@ class NewEntryTableViewController: UITableViewController {
                 
         }
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "saveTraining" {
+            guard
+                let _ = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TrainingEntryTableViewCell).getMileageEntry(), let _ =  (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TrainingEntryTableViewCell).getMileageEntry()
+                else {
+                giveInputAlert()
+                return false
+            }
+            
+            // Check if the date overlaps with existing seasons
+            if true {
+                showSeasonCreationAlert()
+                return false
+            }
+            return true
+        }
+        return false
+    }
+    
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier {
+            if id == "saveTraining" {
+                // Get mileage values
+                let amIndex = IndexPath(row: 0, section: 0)
+                let amMileage = (tableView.cellForRow(at: amIndex) as! TrainingEntryTableViewCell).getMileageEntry()!
+                let pmIndex = IndexPath(row: 1, section: 0)
+                let pmMileage = (tableView.cellForRow(at: pmIndex) as! TrainingEntryTableViewCell).getMileageEntry()!
+                
+                // Get switch values
+                var switchValues = [Bool]()
+                for i in 0..<4 {
+                    let index = IndexPath(row: i, section: 1)
+                    let switchValue = (tableView.cellForRow(at: index) as! TrainingSpecifierTableViewCell).getSwitchValue()
+                    switchValues.append(switchValue)
+                }
+                
+                // Get date
+                let dateIndex = IndexPath(row: 0, section: 2)
+                let date = (tableView.cellForRow(at: dateIndex) as! DateSpecifierTableViewCell).getDate()
+                
+                addData(amMileage: amMileage, pmMileage: pmMileage, switchArray: switchValues, dateOfTraining: date)
+            }
+            else if id == "addSeasonSegue" {
+                if let addSeasonTVC = segue.destination as? AddSeasonTableViewController {
+                    addSeasonTVC.trainingDay = TrainingDay(amMileage: 8, pmMileage: 4, dayOfMonth: "Monday")
+                }
+            }
+        }
+    }
+    
+    func giveInputAlert() {
+        let alertController = UIAlertController(title: "Fill Mileage Fields", message: "AM and PM mileage must be set", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func showSeasonCreationAlert() {
+        let alertController = UIAlertController(title: "New Season", message: "The dates you set are not within a season. Would you like to create one?", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Create Season", style: .default, handler: { (action) -> Void in
+            self.performSegue(withIdentifier: "addSeasonSegue", sender: self)
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func addData(amMileage: Int, pmMileage: Int, switchArray: [Bool], dateOfTraining date: Date) {
+        // add to cloud firestore
+    }
+    
+    @IBAction func unwindToNewEntryTableView(for segue: UIStoryboardSegue) {
+        
+    }
+
         
 //    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 //        let header = view as! UITableViewHeaderFooterView
@@ -120,16 +196,6 @@ class NewEntryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
     */
 

@@ -1,13 +1,18 @@
 //
-//  SeasonTableTableViewController.swift
+//  DaysTableViewController.swift
 //  ASUTrainingLog
 //
-//  Created by Luke Mason on 12/5/20.
+//  Created by Luke Mason on 12/13/20.
 //
 
 import UIKit
 
-class SeasonTableTableViewController: UITableViewController {
+class DaysTableViewController: UITableViewController {
+    
+    @IBAction func editButtonPressed (_ sender: UIBarButtonItem) {
+        let newEditingMode = !tableView.isEditing
+        tableView.setEditing(newEditingMode, animated: true)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,21 +33,41 @@ class SeasonTableTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return 7
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "simpleSub", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "rightSide", for: indexPath)
 
-        cell.textLabel?.text = "Season \(indexPath.row + 1)"
-        cell.detailTextLabel?.text = "Mileage: 0"
+        cell.textLabel?.text = "Day \(indexPath.row + 1)"
+        cell.detailTextLabel?.text = "🟡"
 
         return cell
     }
     
-    @IBAction func unwindToSeasonTableView(for segue: UIStoryboardSegue) {
-        
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        showDeleteAlert()
     }
+    
+    func showDeleteAlert() {
+        let alertController = UIAlertController(title: "Are You Sure?", message: "If you delete this day the data associated will also be deleted.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Yes, Delete.", style: .default, handler: { (action) -> Void in
+            // Delete associated day in firestore
+            // Delete row from table
+        }))
+        alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+
+    /*
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+
+        // Configure the cell...
+
+        return cell
+    }
+    */
 
     /*
     // Override to support conditional editing of the table view.

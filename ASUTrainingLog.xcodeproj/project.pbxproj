@@ -12,6 +12,11 @@
 		9A12EFA425796ADC009CDB1B /* TodaysTrainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12EFA325796ADC009CDB1B /* TodaysTrainingViewController.swift */; };
 		9A12EFAE257971A6009CDB1B /* TrainingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12EFAD257971A6009CDB1B /* TrainingDay.swift */; };
 		9A12EFDF257996F3009CDB1B /* NewEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */; };
+		9A62303425869F6E00D49C6E /* WeeklyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A62303325869F6E00D49C6E /* WeeklyTableViewController.swift */; };
+		9A6230372586A50900D49C6E /* DaysTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6230362586A50900D49C6E /* DaysTableViewController.swift */; };
+		9A62303A2586AAA300D49C6E /* AddSeasonTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6230392586AAA300D49C6E /* AddSeasonTableViewController.swift */; };
+		9A62303D2586AEE100D49C6E /* SeasonNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A62303C2586AEE100D49C6E /* SeasonNameTableViewCell.swift */; };
+		9A6230412586BB9C00D49C6E /* TrainingDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6230402586BB9C00D49C6E /* TrainingDetailsTableViewController.swift */; };
 		9AB4456325770FD400706295 /* TrainingHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4456225770FD400706295 /* TrainingHomeScreen.swift */; };
 		9ADD2C8325799F5A00EBA74E /* TrainingEntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */; };
 		9ADD2C862579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */; };
@@ -33,6 +38,11 @@
 		9A12EFA325796ADC009CDB1B /* TodaysTrainingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysTrainingViewController.swift; sourceTree = "<group>"; };
 		9A12EFAD257971A6009CDB1B /* TrainingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDay.swift; sourceTree = "<group>"; };
 		9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEntryTableViewController.swift; sourceTree = "<group>"; };
+		9A62303325869F6E00D49C6E /* WeeklyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyTableViewController.swift; sourceTree = "<group>"; };
+		9A6230362586A50900D49C6E /* DaysTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysTableViewController.swift; sourceTree = "<group>"; };
+		9A6230392586AAA300D49C6E /* AddSeasonTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeasonTableViewController.swift; sourceTree = "<group>"; };
+		9A62303C2586AEE100D49C6E /* SeasonNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonNameTableViewCell.swift; sourceTree = "<group>"; };
+		9A6230402586BB9C00D49C6E /* TrainingDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDetailsTableViewController.swift; sourceTree = "<group>"; };
 		9AB4456225770FD400706295 /* TrainingHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingHomeScreen.swift; sourceTree = "<group>"; };
 		9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingEntryTableViewCell.swift; sourceTree = "<group>"; };
 		9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSpecifierTableViewCell.swift; sourceTree = "<group>"; };
@@ -100,6 +110,11 @@
 				9ADD2C882579A85700EBA74E /* DateSpecifierTableViewCell.swift */,
 				9A0AD2B3257BF4DC004587EA /* NotesOnTrainingTableViewCell.swift */,
 				9A0AD2BA257C076F004587EA /* SeasonTableTableViewController.swift */,
+				9A62303325869F6E00D49C6E /* WeeklyTableViewController.swift */,
+				9A6230362586A50900D49C6E /* DaysTableViewController.swift */,
+				9A6230392586AAA300D49C6E /* AddSeasonTableViewController.swift */,
+				9A62303C2586AEE100D49C6E /* SeasonNameTableViewCell.swift */,
+				9A6230402586BB9C00D49C6E /* TrainingDetailsTableViewController.swift */,
 			);
 			path = ASUTrainingLog;
 			sourceTree = "<group>";
@@ -241,11 +256,16 @@
 				9A12EFDF257996F3009CDB1B /* NewEntryTableViewController.swift in Sources */,
 				9ADD2C892579A85800EBA74E /* DateSpecifierTableViewCell.swift in Sources */,
 				9ADD2C862579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift in Sources */,
+				9A62303D2586AEE100D49C6E /* SeasonNameTableViewCell.swift in Sources */,
 				9AB4456325770FD400706295 /* TrainingHomeScreen.swift in Sources */,
+				9A6230372586A50900D49C6E /* DaysTableViewController.swift in Sources */,
 				9AE2323F2577014000045286 /* ViewController.swift in Sources */,
+				9A6230412586BB9C00D49C6E /* TrainingDetailsTableViewController.swift in Sources */,
 				9AE2323B2577014000045286 /* AppDelegate.swift in Sources */,
 				9A12EFA425796ADC009CDB1B /* TodaysTrainingViewController.swift in Sources */,
+				9A62303425869F6E00D49C6E /* WeeklyTableViewController.swift in Sources */,
 				9A12EFAE257971A6009CDB1B /* TrainingDay.swift in Sources */,
+				9A62303A2586AAA300D49C6E /* AddSeasonTableViewController.swift in Sources */,
 				9AE2323D2577014000045286 /* SceneDelegate.swift in Sources */,
 				9A0AD2BB257C076F004587EA /* SeasonTableTableViewController.swift in Sources */,
 			);

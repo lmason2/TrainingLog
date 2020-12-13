@@ -34,5 +34,12 @@ class TrainingEntryTableViewCell: UITableViewCell {
         }
         mileageEntry.placeholder = "Mileage"
     }
+    
+    func getMileageEntry() -> Int?{
+        if let mileageEntryString = mileageEntry.text {
+            return Int(mileageEntryString)
+        }
+        return nil
+    }
 
 }

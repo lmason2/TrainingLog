@@ -25,5 +25,9 @@ class TodaysTrainingViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func unwindToTdaysTrainingVC(for segue: UIStoryboardSegue) {
+        
+    }
 
 }

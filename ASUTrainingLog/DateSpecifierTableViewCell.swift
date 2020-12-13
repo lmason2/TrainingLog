@@ -28,5 +28,9 @@ class DateSpecifierTableViewCell: UITableViewCell {
         dateSpecifier.datePickerMode = .date
         dateSpecifier.preferredDatePickerStyle = .compact
     }
+    
+    func getDate() -> Date {
+        return dateSpecifier.date
+    }
 
 }

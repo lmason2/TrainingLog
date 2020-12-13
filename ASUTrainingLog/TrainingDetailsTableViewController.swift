@@ -1,13 +1,13 @@
 //
-//  SeasonTableTableViewController.swift
+//  TrainingDetailsTableViewController.swift
 //  ASUTrainingLog
 //
-//  Created by Luke Mason on 12/5/20.
+//  Created by Luke Mason on 12/13/20.
 //
 
 import UIKit
 
-class SeasonTableTableViewController: UITableViewController {
+class TrainingDetailsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,26 +22,45 @@ class SeasonTableTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 3
+        if section == 0 {
+            return 1
+        }
+        else if section == 1 {
+            return 3
+        }
+        else if section == 2 {
+            return 1
+        }
+        else {
+            return 1
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "simpleSub", for: indexPath)
-
-        cell.textLabel?.text = "Season \(indexPath.row + 1)"
-        cell.detailTextLabel?.text = "Mileage: 0"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath)
+        
+        cell.textLabel?.text = "Test"
+        cell.backgroundColor = .white
 
         return cell
     }
     
-    @IBAction func unwindToSeasonTableView(for segue: UIStoryboardSegue) {
-        
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch(section) {
+            case 0:
+                return "Date"
+            case 1:
+                return "Mileage"
+            case 2:
+                return "Training Key"
+            default:
+                return "Notes"
+                
+        }
     }
 
     /*

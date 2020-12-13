@@ -7,11 +7,15 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class ViewController: UIViewController {
     
     @IBOutlet var emailTF: UITextField!
     @IBOutlet var passwordTF: UITextField!
+    
+    var db: Firestore!
 
     @IBAction func logInButtonTapped(_ sender: UIButton) {
         guard let email = emailTF.text, email != "",
@@ -45,10 +49,11 @@ class ViewController: UIViewController {
                 }
                 
                 strongSelf.performSegue(withIdentifier: "loginSegue", sender: strongSelf)
+                
                 // Add a new document with a generated ID
                 var ref: DocumentReference? = nil
-                ref = db.collection("users").addDocument(data: [
-                    "username": emailTF.text
+                ref = strongSelf.db.collection("users").addDocument(data: [
+                    "username": strongSelf.emailTF.text!
                 ]) { err in
                     if let err = err {
                         print("Error adding document: \(err)")
@@ -66,6 +71,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let settings = FirestoreSettings()
+
+        Firestore.firestore().settings = settings
+        // [END setup]
+        db = Firestore.firestore()
         if FirebaseAuth.Auth.auth().currentUser != nil {
             performSegue(withIdentifier: "loginSegue", sender: self)
         }
