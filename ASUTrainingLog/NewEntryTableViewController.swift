@@ -8,11 +8,13 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import MBProgressHUD
 
 class NewEntryTableViewController: UITableViewController {
     
     var username: String?
     var db: Firestore!
+    var seasonName: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +70,7 @@ class NewEntryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 3 {
-            return 100
+            return 150
         }
         return tableView.estimatedRowHeight
     }
@@ -100,42 +102,39 @@ class NewEntryTableViewController: UITableViewController {
             
             let dateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DateSpecifierTableViewCell
             let date = (dateCell?.getDate())!
-            var returnBool = true
-            needNewSeason(date: date, completion: {(check) in
-                if check {
+            
+            needNewSeason(date: date, completion: {(seasonNameOptional) in
+                if let seasonName = seasonNameOptional {
+                    self.seasonName = seasonName
+                }
+                else {
                     self.showSeasonCreationAlert()
-                    returnBool = false
                 }
             })
-            return returnBool
+            return true // Fix
         }
-        return false
+        else {
+            return false
+        }
     }
     
-    func needNewSeason(date: Date, completion: @escaping (Bool) -> Void) {
-        db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").order(by: "object.start date").getDocuments{ (querySnapshot, err) in
+    func needNewSeason(date: Date, completion: @escaping (String?) -> Void) {
+        db.collection("users").document(username!).collection("seasons").whereField("object.end date", isGreaterThanOrEqualTo: Timestamp(date: date)).getDocuments{ (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    let dictionaryOptional = document.data()["object"] as? NSDictionary
-                    if let dictionary = dictionaryOptional {
-                        let startTS = dictionary["start date"] as? Timestamp
-                        let endTS = dictionary["end date"] as? Timestamp
-                        let startDate = startTS?.dateValue() as! Date
-                        let endDate = endTS?.dateValue() as! Date
-                        
-                        let range = startDate...endDate
-                        if range.contains(date) {
-                            DispatchQueue.main.async {
-                                completion(false)
-                                return
-                            }
+                    let seasonObject = document.data()["object"] as! NSMutableDictionary
+                    let startDate = seasonObject["start date"] as! Timestamp
+                    if (date >= startDate.dateValue()) {
+                        DispatchQueue.main.async {
+                            completion(document.documentID)
+                            return
                         }
                     }
                 }
                 DispatchQueue.main.async {
-                    completion(true)
+                    completion(nil)
                     return
                 }
             }
@@ -145,30 +144,33 @@ class NewEntryTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let id = segue.identifier {
+            let amIndex = IndexPath(row: 0, section: 0)
+            let amMileage = (tableView.cellForRow(at: amIndex) as! TrainingEntryTableViewCell).getMileageEntry()!
+            let pmIndex = IndexPath(row: 1, section: 0)
+            let pmMileage = (tableView.cellForRow(at: pmIndex) as! TrainingEntryTableViewCell).getMileageEntry()!
+            
+            // Get switch values
+            var switchValues = [Bool]()
+            for i in 0..<4 {
+                let index = IndexPath(row: i, section: 1)
+                let switchValue = (tableView.cellForRow(at: index) as! TrainingSpecifierTableViewCell).getSwitchValue()
+                switchValues.append(switchValue)
+            }
+            
+            // Get date
+            let dateIndex = IndexPath(row: 0, section: 2)
+            let date = (tableView.cellForRow(at: dateIndex) as! DateSpecifierTableViewCell).getDate()
+            
+            // Get notes
+            let noteIndex = IndexPath(row: 0, section: 3)
+            let notes = (tableView.cellForRow(at: noteIndex) as! NotesOnTrainingTableViewCell).getNotes()
             if id == "saveTraining" {
-                // Get mileage values
-                let amIndex = IndexPath(row: 0, section: 0)
-                let amMileage = (tableView.cellForRow(at: amIndex) as! TrainingEntryTableViewCell).getMileageEntry()!
-                let pmIndex = IndexPath(row: 1, section: 0)
-                let pmMileage = (tableView.cellForRow(at: pmIndex) as! TrainingEntryTableViewCell).getMileageEntry()!
-                
-                // Get switch values
-                var switchValues = [Bool]()
-                for i in 0..<4 {
-                    let index = IndexPath(row: i, section: 1)
-                    let switchValue = (tableView.cellForRow(at: index) as! TrainingSpecifierTableViewCell).getSwitchValue()
-                    switchValues.append(switchValue)
-                }
-                
-                // Get date
-                let dateIndex = IndexPath(row: 0, section: 2)
-                let date = (tableView.cellForRow(at: dateIndex) as! DateSpecifierTableViewCell).getDate()
-                
-                addData(amMileage: amMileage, pmMileage: pmMileage, switchArray: switchValues, dateOfTraining: date, username: username!)
+                addData(amMileage: amMileage, pmMileage: pmMileage, switchArray: switchValues, dateOfTraining: date, notes: notes, username: username!)
             }
             else if id == "addSeasonSegue" {
                 if let addSeasonTVC = segue.destination as? AddSeasonTableViewController {
-                    addSeasonTVC.trainingDay = TrainingDay(amMileage: 8, pmMileage: 4, dayOfMonth: "Monday")
+                    addSeasonTVC.trainingDay = TrainingDay(amMileage: amMileage, pmMileage: pmMileage, dayOfMonth: "Test", dayName: "TBD", easy: switchValues[0], workout: switchValues[1], race: switchValues[2], longRun: switchValues[3], notes: notes ?? "None")
+                    addSeasonTVC.username = self.username
                 }
             }
         }
@@ -189,9 +191,59 @@ class NewEntryTableViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    func addData(amMileage: Int, pmMileage: Int, switchArray: [Bool], dateOfTraining date: Date, username: String) {
+    func addData(amMileage: Int, pmMileage: Int, switchArray: [Bool], dateOfTraining date: Date, notes: String?, username: String) {
         // add to cloud firestore
-        
+        self.seasonName = "Winter 2020"
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        db.collection("users").document(username).collection("seasons").document(seasonName!).getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let seasonObject = document.data() {
+                    if let objectDictionary = seasonObject["object"] as? NSMutableDictionary{
+                        // Update season mileage
+                        let currSeasonMileage = objectDictionary["mileage"] as! Int
+                        self.db.collection("users").document(username).collection("seasons").document(self.seasonName!).updateData(["object.mileage" : currSeasonMileage + amMileage + pmMileage])
+                        
+                        if let startDateTS = objectDictionary["start date"] as? Timestamp {
+                            let startDate = startDateTS.dateValue()
+                            let dayOfSeason = Int(ceil(date.timeIntervalSince(startDate) / (60*60*24)))
+                            let week = (dayOfSeason / 7) + 1
+                            let dayOfWeek = (dayOfSeason % 7)
+                            
+                            // Update week mileage
+                            self.db.collection("users").document(username).collection("seasons").document(self.seasonName!).collection("weeks").document("Week \(week)").getDocument {(weekDoc, error) in
+                                if let weekDoc = weekDoc, weekDoc.exists {
+                                    if let weekObject = weekDoc.data() {
+                                        let currWeekMileage = weekObject["mileage"] as! Int
+                                        self.db.collection("users").document(username).collection("seasons").document(self.seasonName!).collection("weeks").document("Week \(week)").updateData(["mileage" : currWeekMileage + amMileage + pmMileage])
+                                    }
+                                }
+                            }
+                    
+                            
+                            self.db.collection("users").document(username).collection("seasons").document(self.seasonName!).collection("weeks").document("Week \(week)").collection("days").document("Day \(dayOfWeek)").setData([
+                                "AM Mileage" : amMileage,
+                                "PM Mileage" : pmMileage,
+                                "Total Mileage" : amMileage + pmMileage,
+                                "Easy Day?" : switchArray[0],
+                                "Workout Day?" : switchArray[1],
+                                "Race Day?" : switchArray[2],
+                                "Long Run?" : switchArray[3],
+                                "Notes" : notes ?? "none"
+                            ]) { err in
+                                if let err = err {
+                                    print("Error adding training: \(err)")
+                                } else {
+                                    print("Training successfully added")
+                                }
+                            }
+                            MBProgressHUD.hide(for: self.view, animated: true)
+                        }
+                    }
+                }
+            } else {
+                print("Error")
+            }
+        }
     }
     
     @IBAction func unwindToNewEntryTableView(for segue: UIStoryboardSegue) {

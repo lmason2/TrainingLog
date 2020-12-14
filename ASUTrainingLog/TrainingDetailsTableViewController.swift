@@ -8,15 +8,11 @@
 import UIKit
 
 class TrainingDetailsTableViewController: UITableViewController {
+    
+    var day: TrainingDay?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -43,7 +39,49 @@ class TrainingDetailsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath)
         
-        cell.textLabel?.text = "Test"
+        if indexPath.section == 0 {
+            cell.textLabel?.text = day?.dayOfMonth
+        }
+        else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                if let totalMileage = day?.totalMileage {
+                    cell.textLabel?.text = "Total Mileage: \(totalMileage)"
+                    cell.textLabel?.font = .boldSystemFont(ofSize: 20)
+                }
+            }
+            else if indexPath.row == 1 {
+                if let amMileage = day?.amMileage {
+                    cell.textLabel?.text = "AM Mileage: \(amMileage)"
+                }
+            }
+            else {
+                if let pmMileage = day?.pmMileage {
+                    cell.textLabel?.text = "PM Mileage: \(pmMileage)"
+                }
+            }
+        }
+        else if indexPath.section == 2 {
+            cell.textLabel?.text = ""
+            if let dayUnwrapped = day {
+                if dayUnwrapped.easy {
+                    cell.textLabel?.text! += "🔵"
+                }
+                if dayUnwrapped.workout {
+                    cell.textLabel?.text! += "🔴"
+                }
+                if dayUnwrapped.race{
+                    cell.textLabel?.text! += "🟡"
+                }
+                if dayUnwrapped.longRun {
+                    cell.textLabel?.text! += "🟣"
+                }
+            }
+        }
+        else {
+            if let notes = day?.notes {
+                cell.textLabel?.text = notes
+            }
+        }
         cell.backgroundColor = .white
 
         return cell
@@ -61,6 +99,13 @@ class TrainingDetailsTableViewController: UITableViewController {
                 return "Notes"
                 
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 3 {
+            return 150
+        }
+        return tableView.estimatedRowHeight
     }
 
     /*

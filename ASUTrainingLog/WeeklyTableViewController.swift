@@ -13,6 +13,7 @@ class WeeklyTableViewController: UITableViewController {
     
     var weeks = [Week]()
     var seasonName: String?
+    var username: String?
     var db: Firestore!
     
     @IBAction func editButtonPressed (_ sender: UIBarButtonItem) {
@@ -65,7 +66,7 @@ class WeeklyTableViewController: UITableViewController {
     
     func getWeeks() {
         weeks = [Week]()
-        db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(seasonName!).collection("weeks").getDocuments{ (querySnapshot, err) in
+        db.collection("users").document(username!).collection("seasons").document(seasonName!).collection("weeks").getDocuments{ (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -76,6 +77,21 @@ class WeeklyTableViewController: UITableViewController {
                     self.weeks.append(Week(number: Int(String(weekNumber))!, mileage: mileage as! Int))
                     DispatchQueue.main.async {
                             self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier {
+            if id == "weekToDaySegue" {
+                if let dayTVC = segue.destination as? DaysTableViewController {
+                    if let indexPath = tableView.indexPathForSelectedRow {
+                        let week = weeks[indexPath.row]
+                        dayTVC.weekName = week.number
+                        dayTVC.seasonName = self.seasonName
+                        dayTVC.username = self.username
                     }
                 }
             }

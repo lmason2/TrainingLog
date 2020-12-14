@@ -13,6 +13,7 @@ import FirebaseFirestore
 class AddSeasonTableViewController: UITableViewController {
     
     var trainingDay: TrainingDay?
+    var username: String?
     let db = Firestore.firestore()
 
     
@@ -92,10 +93,10 @@ class AddSeasonTableViewController: UITableViewController {
         let nameOptional = seasonNameCell.getSeasonNameEntry()
         if let name = nameOptional {
             let seasonObject = NSMutableDictionary()
-            seasonObject.addEntries(from: ["start date" : Timestamp(date: startDate)])
-            seasonObject.addEntries(from: ["end date" : Timestamp(date: endDate)])
+            seasonObject.addEntries(from: ["start date" : startDate])
+            seasonObject.addEntries(from: ["end date" : endDate])
             seasonObject.addEntries(from: ["mileage" : 0])
-            db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(name).setData(["object" : seasonObject]) { err in
+            db.collection("users").document(username!).collection("seasons").document(name).setData(["object" : seasonObject]) { err in
                 if let err = err {
                     print("Error updating seasons: \(err)")
                 } else {
@@ -106,7 +107,7 @@ class AddSeasonTableViewController: UITableViewController {
             let days = endDate.timeIntervalSince(startDate) / (60*60*24)
             let weeks = Int(ceil(days/7))
             for i in 0..<weeks {
-                db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(name).collection("weeks").document("Week \(i + 1)").setData(["mileage" : 0]) { err in
+                db.collection("users").document(username!).collection("seasons").document(name).collection("weeks").document("Week \(i + 1)").setData(["mileage" : 0]) { err in
                     if let err = err {
                         print("Error updating weeks: \(err)")
                     } else {

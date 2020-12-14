@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class TodaysTrainingViewController: UIViewController {
     
@@ -13,7 +14,10 @@ class TodaysTrainingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        guard let _ = username else {
+            return
+        }
+        username = Firebase.Auth.auth().currentUser?.email
         // Do any additional setup after loading the view.
     }
     

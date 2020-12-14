@@ -1,3 +1,4 @@
+
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
@@ -16,4 +17,5 @@ target 'ASUTrainingLog' do
     pod 'Firebase/Database'
     # Optionally, include the Swift extensions if you're using Swift.
     pod 'FirebaseFirestoreSwift'
+    pod 'MBProgressHUD', '~> 1.2'
 end

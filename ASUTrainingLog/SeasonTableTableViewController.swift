@@ -42,7 +42,7 @@ class SeasonTableTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "simpleSub", for: indexPath)
 
         cell.textLabel?.text = "\(season.name)"
-        cell.detailTextLabel?.text = "\(season.mileage)"
+        cell.detailTextLabel?.text = "Mileage: \(season.mileage)"
 
         return cell
     }
@@ -54,7 +54,13 @@ class SeasonTableTableViewController: UITableViewController {
                     if let indexPath = tableView.indexPathForSelectedRow {
                         let season = seasons[indexPath.row]
                         weekTVC.seasonName = season.name
+                        weekTVC.username = self.username
                     }
+                }
+            }
+            else if id == "addSeasonFromSeasonSegue" {
+                if let addSeasonTVC = segue.destination as? AddSeasonTableViewController {
+                    addSeasonTVC.username = self.username
                 }
             }
         }
@@ -62,7 +68,7 @@ class SeasonTableTableViewController: UITableViewController {
     
     func getSeasons() {
         seasons = [Season]()
-        db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").order(by: "object.start date").getDocuments{ (querySnapshot, err) in
+        db.collection("users").document(username!).collection("seasons").order(by: "object.start date").getDocuments{ (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

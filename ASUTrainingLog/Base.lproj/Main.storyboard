@@ -195,7 +195,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="MlH-5l-Ea7">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="eEq-Vl-u2d" kind="show" id="MWo-vD-5FV"/>
+                                <segue destination="eEq-Vl-u2d" kind="show" identifier="addSeasonFromSeasonSegue" id="MWo-vD-5FV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -238,7 +238,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="4yQ-2V-0Bu" kind="show" id="lVL-bU-79a"/>
+                                    <segue destination="4yQ-2V-0Bu" kind="show" identifier="weekToDaySegue" id="lVL-bU-79a"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -294,7 +294,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="rPw-8s-P63" kind="show" id="HdE-uF-CNM"/>
+                                    <segue destination="rPw-8s-P63" kind="show" identifier="detailSegue" id="HdE-uF-CNM"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -332,7 +332,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uhL-Ze-SLq">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uhL-Ze-SLq">
                                             <rect key="frame" x="20" y="0.0" width="374" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -352,7 +352,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bqs-gM-HSi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6209" y="1171"/>
+            <point key="canvasLocation" x="6208.6956521739139" y="1170.5357142857142"/>
         </scene>
         <!--New Entry-->
         <scene sceneID="Ong-yD-0hs">
