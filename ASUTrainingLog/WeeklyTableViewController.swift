@@ -15,11 +15,6 @@ class WeeklyTableViewController: UITableViewController {
     var seasonName: String?
     var username: String?
     var db: Firestore!
-    
-    @IBAction func editButtonPressed (_ sender: UIBarButtonItem) {
-        let newEditingMode = !tableView.isEditing
-        tableView.setEditing(newEditingMode, animated: true)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,20 +43,6 @@ class WeeklyTableViewController: UITableViewController {
         cell.detailTextLabel?.text = "Mileage: \(week.mileage)"
 
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        showDeleteAlert()
-    }
-    
-    func showDeleteAlert() {
-        let alertController = UIAlertController(title: "Are You Sure?", message: "If you delete this week, all of its associated days and the data associated will also be deleted.", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Yes, Delete.", style: .default, handler: { (action) -> Void in
-            // Delete associated day in firestore
-            // Delete data from tableview
-        }))
-        alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-        present(alertController, animated: true, completion: nil)
     }
     
     func getWeeks() {

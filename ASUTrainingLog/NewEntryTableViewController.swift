@@ -15,10 +15,33 @@ class NewEntryTableViewController: UITableViewController {
     var username: String?
     var db: Firestore!
     var seasonName: String?
+    
+    @IBAction func saveButtonPressed(sender: UIBarButtonItem) {
+        guard
+            let _ = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TrainingEntryTableViewCell).getMileageEntry(), let _ =  (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TrainingEntryTableViewCell).getMileageEntry()
+            else {
+            giveInputAlert()
+            return
+        }
+        
+        let dateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DateSpecifierTableViewCell
+        let date = (dateCell?.getDate())!
+        
+        needNewSeason(date: date, completion: {(seasonNameOptional) in
+            if let seasonName = seasonNameOptional {
+                self.seasonName = seasonName
+                self.performSegue(withIdentifier: "saveTraining", sender: self)
+            }
+            else {
+                self.showSeasonCreationAlert()
+            }
+        })
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
+        self.navigationItem.backBarButtonItem?.tintColor = .white
     }
     // MARK: - Table view data source
 
@@ -87,46 +110,25 @@ class NewEntryTableViewController: UITableViewController {
                 return "Notes"
             default:
                 return "Misc"
-                
-        }
-    }
-    
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "saveTraining" {
-            guard
-                let _ = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TrainingEntryTableViewCell).getMileageEntry(), let _ =  (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! TrainingEntryTableViewCell).getMileageEntry()
-                else {
-                giveInputAlert()
-                return false
-            }
-            
-            let dateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DateSpecifierTableViewCell
-            let date = (dateCell?.getDate())!
-            
-            needNewSeason(date: date, completion: {(seasonNameOptional) in
-                if let seasonName = seasonNameOptional {
-                    self.seasonName = seasonName
-                }
-                else {
-                    self.showSeasonCreationAlert()
-                }
-            })
-            return true // Fix
-        }
-        else {
-            return false
         }
     }
     
     func needNewSeason(date: Date, completion: @escaping (String?) -> Void) {
-        db.collection("users").document(username!).collection("seasons").whereField("object.end date", isGreaterThanOrEqualTo: Timestamp(date: date)).getDocuments{ (querySnapshot, err) in
+        db.collection("users").document(username!).collection("seasons").getDocuments{ (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
                     let seasonObject = document.data()["object"] as! NSMutableDictionary
                     let startDate = seasonObject["start date"] as! Timestamp
-                    if (date >= startDate.dateValue()) {
+                    let endDate = seasonObject["end date"] as! Timestamp
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone = NSTimeZone.local
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let adjustedStartDate = dateFormatter.string(from: startDate.dateValue())
+                    let adjustedEndDate = dateFormatter.string(from: endDate.dateValue())
+                    let adjustedDate = dateFormatter.string(from: date)
+                    if (adjustedDate >= adjustedStartDate && adjustedDate <= adjustedEndDate) {
                         DispatchQueue.main.async {
                             completion(document.documentID)
                             return
@@ -140,7 +142,6 @@ class NewEntryTableViewController: UITableViewController {
             }
         }
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let id = segue.identifier {
@@ -169,7 +170,7 @@ class NewEntryTableViewController: UITableViewController {
             }
             else if id == "addSeasonSegue" {
                 if let addSeasonTVC = segue.destination as? AddSeasonTableViewController {
-                    addSeasonTVC.trainingDay = TrainingDay(amMileage: amMileage, pmMileage: pmMileage, dayOfMonth: "Test", dayName: "TBD", easy: switchValues[0], workout: switchValues[1], race: switchValues[2], longRun: switchValues[3], notes: notes ?? "None")
+                    addSeasonTVC.newEntry = true
                     addSeasonTVC.username = self.username
                 }
             }
@@ -192,8 +193,7 @@ class NewEntryTableViewController: UITableViewController {
     }
     
     func addData(amMileage: Int, pmMileage: Int, switchArray: [Bool], dateOfTraining date: Date, notes: String?, username: String) {
-        // add to cloud firestore
-        self.seasonName = "Winter 2020"
+        // Add data to cloud firestore
         MBProgressHUD.showAdded(to: self.view, animated: true)
         db.collection("users").document(username).collection("seasons").document(seasonName!).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -203,11 +203,19 @@ class NewEntryTableViewController: UITableViewController {
                         let currSeasonMileage = objectDictionary["mileage"] as! Int
                         self.db.collection("users").document(username).collection("seasons").document(self.seasonName!).updateData(["object.mileage" : currSeasonMileage + amMileage + pmMileage])
                         
+                        // Get dates
                         if let startDateTS = objectDictionary["start date"] as? Timestamp {
-                            let startDate = startDateTS.dateValue()
-                            let dayOfSeason = Int(ceil(date.timeIntervalSince(startDate) / (60*60*24)))
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.timeZone = NSTimeZone.local
+                            dateFormatter.dateFormat = "yyyy-MM-dd"
+                            let adjustedStartString = dateFormatter.string(from: startDateTS.dateValue())
+                            let adjustedCurrString = dateFormatter.string(from: date)
+                            let adjustedStartDate = dateFormatter.date(from: adjustedStartString)
+                            let adjustedCurrDate = dateFormatter.date(from: adjustedCurrString)
+                            
+                            let dayOfSeason = Int(ceil(adjustedCurrDate!.timeIntervalSince(adjustedStartDate!) / (60*60*24)))
                             let week = (dayOfSeason / 7) + 1
-                            let dayOfWeek = (dayOfSeason % 7)
+                            let dayOfWeek = (dayOfSeason % 7) + 1
                             
                             // Update week mileage
                             self.db.collection("users").document(username).collection("seasons").document(self.seasonName!).collection("weeks").document("Week \(week)").getDocument {(weekDoc, error) in
@@ -219,7 +227,7 @@ class NewEntryTableViewController: UITableViewController {
                                 }
                             }
                     
-                            
+                            // Write training day in
                             self.db.collection("users").document(username).collection("seasons").document(self.seasonName!).collection("weeks").document("Week \(week)").collection("days").document("Day \(dayOfWeek)").setData([
                                 "AM Mileage" : amMileage,
                                 "PM Mileage" : pmMileage,
@@ -228,6 +236,7 @@ class NewEntryTableViewController: UITableViewController {
                                 "Workout Day?" : switchArray[1],
                                 "Race Day?" : switchArray[2],
                                 "Long Run?" : switchArray[3],
+                                "Date" : Timestamp(date: date),
                                 "Notes" : notes ?? "none"
                             ]) { err in
                                 if let err = err {

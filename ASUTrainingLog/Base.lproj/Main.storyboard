@@ -192,10 +192,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Seasons" id="5yk-8b-kLe">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="MlH-5l-Ea7">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="MlH-5l-Ea7">
+                            <color key="tintColor" red="0.7843137255" green="0.062745098040000002" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="eEq-Vl-u2d" kind="show" identifier="addSeasonFromSeasonSegue" id="MWo-vD-5FV"/>
+                                <action selector="editButtonPressedWithSender:" destination="Z0j-vu-F3b" id="IyP-Wz-sYB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -247,14 +247,7 @@
                             <outlet property="delegate" destination="Eqo-4l-mqb" id="w6h-N6-l9A"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Weeks" id="taY-W6-pZY">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="xpn-ZX-s8A">
-                            <color key="tintColor" red="0.7843137255" green="0.062745098040000002" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="editButtonPressed:" destination="Eqo-4l-mqb" id="Hmd-p1-QNX"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Weeks" id="taY-W6-pZY"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EON-Jj-gcI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -509,12 +502,13 @@
                         <barButtonItem key="rightBarButtonItem" title="Save" id="HL5-fo-tU2">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="wm3-Y2-hgM" kind="unwind" identifier="saveTraining" unwindAction="unwindToTdaysTrainingVCFor:" id="nR7-aD-5El"/>
+                                <action selector="saveButtonPressedWithSender:" destination="IJ6-hd-nYw" id="f7C-0f-o1O"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="eEq-Vl-u2d" kind="show" identifier="addSeasonSegue" id="RSa-BY-sGm"/>
+                        <segue destination="wm3-Y2-hgM" kind="unwind" identifier="saveTraining" unwindAction="unwindToTdaysTrainingVCFor:" id="gyi-Z5-szu"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8W-yc-eI5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -593,7 +587,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="FW2-w9-agp" kind="unwind" identifier="seasonTable" unwindAction="unwindToSeasonTableViewFor:" id="PsI-6S-VfX"/>
                         <segue destination="FW2-w9-agp" kind="unwind" identifier="newEntry" unwindAction="unwindToNewEntryTableViewFor:" id="iNx-vT-Bxo"/>
                     </connections>
                 </tableViewController>
@@ -625,11 +618,7 @@
             <point key="canvasLocation" x="1327.536231884058" y="75"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="RSa-BY-sGm"/>
-    </inferredMetricsTieBreakers>
     <resources>
-        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

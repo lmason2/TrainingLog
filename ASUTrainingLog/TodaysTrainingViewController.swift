@@ -18,6 +18,7 @@ class TodaysTrainingViewController: UIViewController {
             return
         }
         username = Firebase.Auth.auth().currentUser?.email
+        self.navigationItem.setHidesBackButton(true, animated: true)
         // Do any additional setup after loading the view.
     }
     

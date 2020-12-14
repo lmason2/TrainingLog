@@ -12,19 +12,14 @@ import FirebaseFirestore
 
 class AddSeasonTableViewController: UITableViewController {
     
-    var trainingDay: TrainingDay?
+    var newEntry: Bool?
     var username: String?
+    var seasonName: String?
     let db = Firestore.firestore()
 
     
     @IBAction func createSeassonButtonPressed(sender: UIBarButtonItem) {
         createSeason()
-        if let _ = trainingDay {
-            performSegue(withIdentifier: "newEntry", sender: self)
-        }
-        else {
-            performSegue(withIdentifier: "seasonTable", sender: self)
-        }
     }
 
     override func viewDidLoad() {
@@ -81,6 +76,16 @@ class AddSeasonTableViewController: UITableViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier {
+            if id == "newEntry" {
+                if let newEntryTVC = segue.destination as? NewEntryTableViewController {
+                    newEntryTVC.seasonName = self.seasonName
+                }
+            }
+        }
+    }
+    
     
     func createSeason() {
         guard let seasonNameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? SeasonNameTableViewCell, let startDateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DateSpecifierTableViewCell, let endDateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DateSpecifierTableViewCell else {
@@ -92,6 +97,7 @@ class AddSeasonTableViewController: UITableViewController {
         
         let nameOptional = seasonNameCell.getSeasonNameEntry()
         if let name = nameOptional {
+            self.seasonName = name
             let seasonObject = NSMutableDictionary()
             seasonObject.addEntries(from: ["start date" : startDate])
             seasonObject.addEntries(from: ["end date" : endDate])
@@ -112,10 +118,10 @@ class AddSeasonTableViewController: UITableViewController {
                         print("Error updating weeks: \(err)")
                     } else {
                         print("Weeks successfully updated")
+                        self.performSegue(withIdentifier: "newEntry", sender: self)
                     }
                 }
             }
-            
         }
     }
         

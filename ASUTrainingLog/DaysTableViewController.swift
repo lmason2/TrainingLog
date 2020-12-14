@@ -67,17 +67,57 @@ class DaysTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        showDeleteAlert()
+        showDeleteAlert(indexPath: indexPath)
     }
     
-    func showDeleteAlert() {
+    func showDeleteAlert(indexPath: IndexPath) {
         let alertController = UIAlertController(title: "Are You Sure?", message: "If you delete this day the data associated will also be deleted.", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes, Delete.", style: .default, handler: { (action) -> Void in
-            // Delete associated day in firestore
-            // Delete row from table
+            let dayName = self.days[indexPath.row].dayName
+            self.getDayToBeDeletedMileage(with: dayName, completion: {(mileage) in
+                if let mileageUnwrapped = mileage {
+                    self.adjustWeekAndMonthMileage(less: mileageUnwrapped)
+                }
+            })
         }))
         alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func getDayToBeDeletedMileage(with day: String, completion: @escaping (Int?) -> Void) {
+        print(weekName)
+        print(day)
+        db.collection("users").document(username!).collection("seasons").document(seasonName!).collection("weeks").document("Week \(weekName!)").collection("days").document(day).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let mileage = document.data()!["mileage"] as! Int
+                DispatchQueue.main.async {
+                    completion(mileage)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func adjustWeekAndMonthMileage(less mileage: Int) {
+        self.db.collection("users").document(username!).collection("seasons").document(self.seasonName!).collection("weeks").document("Week \(weekName!)").getDocument {(weekDoc, error) in
+            if let weekDoc = weekDoc, weekDoc.exists {
+                if let weekObject = weekDoc.data() {
+                    let currWeekMileage = weekObject["mileage"] as! Int
+                    self.db.collection("users").document(self.username!).collection("seasons").document(self.seasonName!).collection("weeks").document("Week \(self.weekName!)").updateData(["mileage" : currWeekMileage - mileage])
+                }
+            }
+        }
+        
+        self.db.collection("users").document(username!).collection("seasons").document(self.seasonName!).getDocument {(seasonDoc, error) in
+            if let seasonDoc = seasonDoc, seasonDoc.exists {
+                if let seasonObject = seasonDoc.data() {
+                    let objectDictionary = seasonObject["object"] as! NSMutableDictionary
+                    let currMonthMileage = objectDictionary["mileage"] as! Int
+                    self.db.collection("users").document(self.username!).collection("seasons").document(self.seasonName!).updateData(["mileage" : currMonthMileage - mileage])
+                }
+            }
+        }
     }
     
     func getDays() {
@@ -96,10 +136,16 @@ class DaysTableViewController: UITableViewController {
                     let raceDay = document.data()["Race Day?"] as! Bool
                     let longRun = document.data()["Long Run?"] as! Bool
                     let notes = document.data()["Notes"] as! String
+                    let date = document.data()["Date"] as! Timestamp
                     
-                    self.days.append(TrainingDay(amMileage: amMileage, pmMileage: pmMileage, dayOfMonth: "1", dayName: dayName, easy: easyDay, workout: workoutDay, race: raceDay, longRun: longRun, notes: notes))
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone = NSTimeZone.local
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let adjustedDate = dateFormatter.string(from: date.dateValue())
+                    
+                    self.days.append(TrainingDay(amMileage: amMileage, pmMileage: pmMileage, dayOfMonth: adjustedDate, dayName: dayName, easy: easyDay, workout: workoutDay, race: raceDay, longRun: longRun, notes: notes))
                     DispatchQueue.main.async {
-                            self.tableView.reloadData()
+                        self.tableView.reloadData()
                     }
                 }
             }

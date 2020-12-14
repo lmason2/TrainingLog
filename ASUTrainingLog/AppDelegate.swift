@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
-        let db = Firestore.firestore()
-        print(db)
+        UINavigationBar.appearance().tintColor = UIColor.white //your desired color here
+
         return true
     }
 

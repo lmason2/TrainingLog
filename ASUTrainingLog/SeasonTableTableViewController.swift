@@ -14,6 +14,11 @@ class SeasonTableTableViewController: UITableViewController {
     var username: String?
     var seasons = [Season]()
     var db: Firestore!
+    
+    @IBAction func editButtonPressed(sender: UIBarButtonItem) {
+        let newEditingMode = !tableView.isEditing
+        tableView.setEditing(newEditingMode, animated: true)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +52,10 @@ class SeasonTableTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        showDeleteAlert(indexPath: indexPath)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let id = segue.identifier {
             if id == "seasonToWeekSegue" {
@@ -58,12 +67,28 @@ class SeasonTableTableViewController: UITableViewController {
                     }
                 }
             }
-            else if id == "addSeasonFromSeasonSegue" {
-                if let addSeasonTVC = segue.destination as? AddSeasonTableViewController {
-                    addSeasonTVC.username = self.username
+        }
+    }
+    
+    func showDeleteAlert(indexPath: IndexPath) {
+        let alertController = UIAlertController(title: "Are You Sure?", message: "If you delete this season the data associated will also be deleted.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Yes, Delete.", style: .default, handler: { (action) -> Void in
+            let seasonName = self.seasons[indexPath.row].name
+            self.db.collection("users").document(self.username!).collection("seasons").document(seasonName).delete() { err in
+                if let err = err {
+                    print("Error removing season: \(err)")
+                } else {
+                    print("Season successfully removed!")
+                    self.seasons.remove(at: indexPath.row)
+                    DispatchQueue.main.async {
+                        self.tableView.isEditing = false
+                        self.tableView.reloadData()
+                    }
                 }
             }
-        }
+        }))
+        alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
     func getSeasons() {
