@@ -7,20 +7,25 @@
 
 import UIKit
 
+// Class to handle the user wanting to see details on a training day
 class TrainingDetailsTableViewController: UITableViewController {
     
-    var day: TrainingDay?
+    var day: TrainingDay? // The day to be shown
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    // MARK: - Table view data source
-
+    /*
+     * Function to get the number of sections in the table view
+     */
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
 
+    /*
+     * Function to get the number of rows in a section
+     */
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
@@ -36,57 +41,76 @@ class TrainingDetailsTableViewController: UITableViewController {
         }
     }
 
+    /*
+     * Function to set up the reusable cells for the table view
+     */
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // All cells are basic cells
         let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath)
         
+        // Specify labels based on section and rows
         if indexPath.section == 0 {
+            // Set the label to the date of training
             cell.textLabel?.text = day?.dayOfMonth
         }
         else if indexPath.section == 1 {
+            // Set the label for mileage
             if indexPath.row == 0 {
+                // Total mileage
                 if let totalMileage = day?.totalMileage {
                     cell.textLabel?.text = "Total Mileage: \(totalMileage)"
                     cell.textLabel?.font = .boldSystemFont(ofSize: 20)
                 }
             }
             else if indexPath.row == 1 {
+                // Am Mileage
                 if let amMileage = day?.amMileage {
                     cell.textLabel?.text = "AM Mileage: \(amMileage)"
                 }
             }
             else {
+                // Pm Mileage
                 if let pmMileage = day?.pmMileage {
                     cell.textLabel?.text = "PM Mileage: \(pmMileage)"
                 }
             }
         }
         else if indexPath.section == 2 {
-            cell.textLabel?.text = ""
+            // Set the label for training specifier key
+            cell.textLabel?.text = "" // Initialize string to be built up
             if let dayUnwrapped = day {
                 if dayUnwrapped.easy {
+                    // Easy day
                     cell.textLabel?.text! += "🔵"
                 }
                 if dayUnwrapped.workout {
+                    // Workout day
                     cell.textLabel?.text! += "🔴"
                 }
                 if dayUnwrapped.race{
+                    // Race day
                     cell.textLabel?.text! += "🟡"
                 }
                 if dayUnwrapped.longRun {
+                    // Long run
                     cell.textLabel?.text! += "🟣"
                 }
             }
         }
         else {
+            // Add notes to details
             if let notes = day?.notes {
                 cell.textLabel?.text = notes
             }
         }
+        // Set all cell's background color to white to show contrast
         cell.backgroundColor = .white
-
         return cell
     }
     
+    /*
+     * Function to get the titles for section headers
+     */
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch(section) {
             case 0:
@@ -101,56 +125,14 @@ class TrainingDetailsTableViewController: UITableViewController {
         }
     }
     
+    /*
+     * Function to specify different height for notes section
+     */
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 3 {
+            // Extend height of note cell
             return 150
         }
-        return tableView.estimatedRowHeight
+        return tableView.estimatedRowHeight // Use default height
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

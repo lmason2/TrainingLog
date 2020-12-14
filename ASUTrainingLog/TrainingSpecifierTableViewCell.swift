@@ -7,11 +7,13 @@
 
 import UIKit
 
+// Class to support the training entry table cell for training types
 class TrainingSpecifierTableViewCell: UITableViewCell {
 
-    @IBOutlet var trainingType: UILabel!
+    @IBOutlet var trainingType: UILabel! // Label to specify switch's purpose
     @IBOutlet var typeSwitch: UISwitch!
 
+    /* Functions out of the box of UITableViewCell */
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,7 +25,11 @@ class TrainingSpecifierTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
         
+    /*
+     * Helper function to update the cell's labels
+     */
     func update(with indexPath: IndexPath) {
+        // Switch on row to specify
         switch (indexPath.row) {
             case 0:
                 trainingType.text = "Easy Day 🔵"
@@ -47,8 +53,11 @@ class TrainingSpecifierTableViewCell: UITableViewCell {
         }
     }
     
+    /*
+     * Helper function to get the switches value
+     * Return Bool for the value of the given switch
+     */
     func getSwitchValue() -> Bool {
         return typeSwitch.isOn
     }
-
 }

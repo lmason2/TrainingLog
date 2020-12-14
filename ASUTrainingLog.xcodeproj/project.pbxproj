@@ -19,7 +19,6 @@
 		9A6230412586BB9C00D49C6E /* TrainingDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6230402586BB9C00D49C6E /* TrainingDetailsTableViewController.swift */; };
 		9A623087258714CD00D49C6E /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A623086258714CD00D49C6E /* Season.swift */; };
 		9A62308A25871C9300D49C6E /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A62308925871C9300D49C6E /* Week.swift */; };
-		9AB4456325770FD400706295 /* TrainingHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4456225770FD400706295 /* TrainingHomeScreen.swift */; };
 		9ADD2C8325799F5A00EBA74E /* TrainingEntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */; };
 		9ADD2C862579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */; };
 		9ADD2C892579A85800EBA74E /* DateSpecifierTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD2C882579A85700EBA74E /* DateSpecifierTableViewCell.swift */; };
@@ -47,7 +46,6 @@
 		9A6230402586BB9C00D49C6E /* TrainingDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDetailsTableViewController.swift; sourceTree = "<group>"; };
 		9A623086258714CD00D49C6E /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		9A62308925871C9300D49C6E /* Week.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Week.swift; sourceTree = "<group>"; };
-		9AB4456225770FD400706295 /* TrainingHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingHomeScreen.swift; sourceTree = "<group>"; };
 		9ADD2C8225799F5A00EBA74E /* TrainingEntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingEntryTableViewCell.swift; sourceTree = "<group>"; };
 		9ADD2C852579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSpecifierTableViewCell.swift; sourceTree = "<group>"; };
 		9ADD2C882579A85700EBA74E /* DateSpecifierTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSpecifierTableViewCell.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 				9AE232452577014500045286 /* LaunchScreen.storyboard */,
 				9AE232482577014500045286 /* Info.plist */,
 				9AE2324F2577017500045286 /* GoogleService-Info.plist */,
-				9AB4456225770FD400706295 /* TrainingHomeScreen.swift */,
 				9A12EFA325796ADC009CDB1B /* TodaysTrainingViewController.swift */,
 				9A12EFAD257971A6009CDB1B /* TrainingDay.swift */,
 				9A12EFDE257996F3009CDB1B /* NewEntryTableViewController.swift */,
@@ -264,7 +261,6 @@
 				9ADD2C892579A85800EBA74E /* DateSpecifierTableViewCell.swift in Sources */,
 				9ADD2C862579A77B00EBA74E /* TrainingSpecifierTableViewCell.swift in Sources */,
 				9A62303D2586AEE100D49C6E /* SeasonNameTableViewCell.swift in Sources */,
-				9AB4456325770FD400706295 /* TrainingHomeScreen.swift in Sources */,
 				9A6230372586A50900D49C6E /* DaysTableViewController.swift in Sources */,
 				9AE2323F2577014000045286 /* ViewController.swift in Sources */,
 				9A6230412586BB9C00D49C6E /* TrainingDetailsTableViewController.swift in Sources */,
