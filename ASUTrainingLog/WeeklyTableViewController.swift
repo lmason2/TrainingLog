@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestore
 
 class WeeklyTableViewController: UITableViewController {
     
     var weeks = [Week]()
+    var seasonName: String?
+    var db: Firestore!
     
     @IBAction func editButtonPressed (_ sender: UIBarButtonItem) {
         let newEditingMode = !tableView.isEditing
@@ -18,12 +22,8 @@ class WeeklyTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        db = Firestore.firestore()
+        getWeeks()
     }
 
     // MARK: - Table view data source
@@ -35,14 +35,16 @@ class WeeklyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 4
+        return weeks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "simpleSub", for: indexPath)
+        
+        let week = weeks[indexPath.row]
 
-        cell.textLabel?.text = "Week \(indexPath.row + 1)"
-        cell.detailTextLabel?.text = "Mileage: 0"
+        cell.textLabel?.text = "Week \(week.number)"
+        cell.detailTextLabel?.text = "Mileage: \(week.mileage)"
 
         return cell
     }
@@ -59,6 +61,25 @@ class WeeklyTableViewController: UITableViewController {
         }))
         alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func getWeeks() {
+        weeks = [Week]()
+        db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(seasonName!).collection("weeks").getDocuments{ (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let weekName = document.documentID
+                    let weekNumber = weekName[weekName.index(weekName.endIndex, offsetBy: -1)]
+                    let mileage = document.data()["mileage"]
+                    self.weeks.append(Week(number: Int(String(weekNumber))!, mileage: mileage as! Int))
+                    DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
 
     /*

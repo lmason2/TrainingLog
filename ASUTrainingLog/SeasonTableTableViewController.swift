@@ -47,6 +47,19 @@ class SeasonTableTableViewController: UITableViewController {
         return cell
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier {
+            if id == "seasonToWeekSegue" {
+                if let weekTVC = segue.destination as? WeeklyTableViewController {
+                    if let indexPath = tableView.indexPathForSelectedRow {
+                        let season = seasons[indexPath.row]
+                        weekTVC.seasonName = season.name
+                    }
+                }
+            }
+        }
+    }
+    
     func getSeasons() {
         seasons = [Season]()
         db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").order(by: "object.start date").getDocuments{ (querySnapshot, err) in

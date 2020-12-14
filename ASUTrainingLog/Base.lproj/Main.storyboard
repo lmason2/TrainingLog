@@ -182,7 +182,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Eqo-4l-mqb" kind="show" id="9j9-Ns-urx"/>
+                                    <segue destination="Eqo-4l-mqb" kind="show" identifier="seasonToWeekSegue" id="9j9-Ns-urx"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

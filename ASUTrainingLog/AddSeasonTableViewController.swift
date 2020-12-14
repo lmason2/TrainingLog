@@ -106,7 +106,7 @@ class AddSeasonTableViewController: UITableViewController {
             let days = endDate.timeIntervalSince(startDate) / (60*60*24)
             let weeks = Int(ceil(days/7))
             for i in 0..<weeks {
-                db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(name).collection("weeks").document("Week \(i)").setData(["mileage" : 0]) { err in
+                db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(name).collection("weeks").document("Week \(i + 1)").setData(["mileage" : 0]) { err in
                     if let err = err {
                         print("Error updating weeks: \(err)")
                     } else {
