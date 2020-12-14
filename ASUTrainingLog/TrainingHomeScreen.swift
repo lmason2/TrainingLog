@@ -9,6 +9,8 @@ import UIKit
 import FirebaseAuth
 
 class TrainingHomeScreen: UITabBarController {
+    
+    var username: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()

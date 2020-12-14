@@ -9,6 +9,8 @@ import UIKit
 
 class WeeklyTableViewController: UITableViewController {
     
+    var weeks = [Week]()
+    
     @IBAction func editButtonPressed (_ sender: UIBarButtonItem) {
         let newEditingMode = !tableView.isEditing
         tableView.setEditing(newEditingMode, animated: true)

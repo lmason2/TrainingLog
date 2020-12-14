@@ -8,6 +8,8 @@
 import UIKit
 
 class TodaysTrainingViewController: UIViewController {
+    
+    var username: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,19 +17,23 @@ class TodaysTrainingViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     @IBAction func unwindToTdaysTrainingVC(for segue: UIStoryboardSegue) {
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier {
+            if id == "newEntrySegue" {
+                if let newEntryTVC = segue.destination as? NewEntryTableViewController {
+                    newEntryTVC.username = username
+                }
+            }
+            else if id == "seasonsSegue" {
+                if let seasonsTVC = segue.destination as? SeasonTableTableViewController {
+                    seasonsTVC.username = username
+                }
+            }
+        }
     }
 
 }

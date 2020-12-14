@@ -102,7 +102,7 @@
                                             <color key="titleColor" red="0.015686274510000001" green="0.1176470588" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="IJ6-hd-nYw" kind="show" id="u2V-4D-nAj"/>
+                                            <segue destination="IJ6-hd-nYw" kind="show" identifier="newEntrySegue" id="u2V-4D-nAj"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="osL-pZ-j9P">
@@ -113,7 +113,7 @@
                                             <color key="titleColor" red="0.015686274510000001" green="0.1176470588" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Z0j-vu-F3b" kind="show" id="TCg-WG-sBj"/>
+                                            <segue destination="Z0j-vu-F3b" kind="show" identifier="seasonsSegue" id="TCg-WG-sBj"/>
                                         </connections>
                                     </button>
                                 </subviews>

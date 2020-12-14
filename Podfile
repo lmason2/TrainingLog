@@ -13,7 +13,7 @@ target 'ASUTrainingLog' do
     pod 'Firebase'
     pod 'Firebase/Auth'
     pod 'Firebase/Firestore'
-
+    pod 'Firebase/Database'
     # Optionally, include the Swift extensions if you're using Swift.
     pod 'FirebaseFirestoreSwift'
 end

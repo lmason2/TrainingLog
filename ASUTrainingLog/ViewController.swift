@@ -7,14 +7,15 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class ViewController: UIViewController {
     
     @IBOutlet var emailTF: UITextField!
     @IBOutlet var passwordTF: UITextField!
     
+    var ref: DatabaseReference!
     var db: Firestore!
 
     @IBAction func logInButtonTapped(_ sender: UIButton) {
@@ -50,15 +51,12 @@ class ViewController: UIViewController {
                 
                 strongSelf.performSegue(withIdentifier: "loginSegue", sender: strongSelf)
                 
-                // Add a new document with a generated ID
-                var ref: DocumentReference? = nil
-                ref = strongSelf.db.collection("users").addDocument(data: [
-                    "username": strongSelf.emailTF.text!
-                ]) { err in
+                // Add a new document in collection
+                strongSelf.db.collection("users").document(strongSelf.emailTF.text!).setData(["seasons" : "none"]) { err in
                     if let err = err {
-                        print("Error adding document: \(err)")
+                        print("Error writing document: \(err)")
                     } else {
-                        print("Document added with ID: \(ref!.documentID)")
+                        print("Document successfully written!")
                     }
                 }
             })
@@ -70,6 +68,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        ref = Database.database().reference()
         // Do any additional setup after loading the view.
         let settings = FirestoreSettings()
 
@@ -89,6 +88,16 @@ class ViewController: UIViewController {
         }
         catch {
             print("An error occurred")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier {
+            if id == "loginSegue" {
+                if let todaysTrainingVC = segue.destination as? TodaysTrainingViewController {
+                    todaysTrainingVC.username = emailTF.text!
+                }
+            }
         }
     }
 }

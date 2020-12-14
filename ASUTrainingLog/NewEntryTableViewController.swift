@@ -6,11 +6,17 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestore
 
 class NewEntryTableViewController: UITableViewController {
+    
+    var username: String?
+    var db: Firestore!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()
     }
     // MARK: - Table view data source
 
@@ -92,16 +98,49 @@ class NewEntryTableViewController: UITableViewController {
                 return false
             }
             
-            // Check if the date overlaps with existing seasons
-            if true {
-                showSeasonCreationAlert()
-                return false
-            }
-            return true
+            let dateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DateSpecifierTableViewCell
+            let date = (dateCell?.getDate())!
+            var returnBool = true
+            needNewSeason(date: date, completion: {(check) in
+                if check {
+                    self.showSeasonCreationAlert()
+                    returnBool = false
+                }
+            })
+            return returnBool
         }
         return false
     }
     
+    func needNewSeason(date: Date, completion: @escaping (Bool) -> Void) {
+        db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").order(by: "object.start date").getDocuments{ (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let dictionaryOptional = document.data()["object"] as? NSDictionary
+                    if let dictionary = dictionaryOptional {
+                        let startTS = dictionary["start date"] as? Timestamp
+                        let endTS = dictionary["end date"] as? Timestamp
+                        let startDate = startTS?.dateValue() as! Date
+                        let endDate = endTS?.dateValue() as! Date
+                        
+                        let range = startDate...endDate
+                        if range.contains(date) {
+                            DispatchQueue.main.async {
+                                completion(false)
+                                return
+                            }
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    completion(true)
+                    return
+                }
+            }
+        }
+    }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -125,7 +164,7 @@ class NewEntryTableViewController: UITableViewController {
                 let dateIndex = IndexPath(row: 0, section: 2)
                 let date = (tableView.cellForRow(at: dateIndex) as! DateSpecifierTableViewCell).getDate()
                 
-                addData(amMileage: amMileage, pmMileage: pmMileage, switchArray: switchValues, dateOfTraining: date)
+                addData(amMileage: amMileage, pmMileage: pmMileage, switchArray: switchValues, dateOfTraining: date, username: username!)
             }
             else if id == "addSeasonSegue" {
                 if let addSeasonTVC = segue.destination as? AddSeasonTableViewController {
@@ -150,8 +189,9 @@ class NewEntryTableViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    func addData(amMileage: Int, pmMileage: Int, switchArray: [Bool], dateOfTraining date: Date) {
+    func addData(amMileage: Int, pmMileage: Int, switchArray: [Bool], dateOfTraining date: Date, username: String) {
         // add to cloud firestore
+        
     }
     
     @IBAction func unwindToNewEntryTableView(for segue: UIStoryboardSegue) {

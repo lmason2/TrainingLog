@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
+import FirebaseFirestore
 
 class AddSeasonTableViewController: UITableViewController {
     
     var trainingDay: TrainingDay?
+    let db = Firestore.firestore()
+
     
     @IBAction func createSeassonButtonPressed(sender: UIBarButtonItem) {
         createSeason()
@@ -75,7 +80,45 @@ class AddSeasonTableViewController: UITableViewController {
         }
     }
     
+    
     func createSeason() {
+        guard let seasonNameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? SeasonNameTableViewCell, let startDateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DateSpecifierTableViewCell, let endDateCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DateSpecifierTableViewCell else {
+            showFieldAlert()
+            return
+        }
+        let startDate = startDateCell.getDate()
+        let endDate = endDateCell.getDate()
+        
+        let nameOptional = seasonNameCell.getSeasonNameEntry()
+        if let name = nameOptional {
+            let seasonObject = NSMutableDictionary()
+            seasonObject.addEntries(from: ["start date" : Timestamp(date: startDate)])
+            seasonObject.addEntries(from: ["end date" : Timestamp(date: endDate)])
+            seasonObject.addEntries(from: ["mileage" : 0])
+            db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(name).setData(["object" : seasonObject]) { err in
+                if let err = err {
+                    print("Error updating seasons: \(err)")
+                } else {
+                    print("Seasons successfully updated")
+                }
+            }
+            
+            let days = endDate.timeIntervalSince(startDate) / (60*60*24)
+            let weeks = Int(ceil(days/7))
+            for i in 0..<weeks {
+                db.collection("users").document("lukesamuelmason@gmail.com").collection("seasons").document(name).collection("weeks").document("Week \(i)").setData(["mileage" : 0]) { err in
+                    if let err = err {
+                        print("Error updating weeks: \(err)")
+                    } else {
+                        print("Weeks successfully updated")
+                    }
+                }
+            }
+            
+        }
+    }
+        
+    func showFieldAlert() {
         
     }
 
